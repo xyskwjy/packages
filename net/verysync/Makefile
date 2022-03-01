@@ -48,9 +48,9 @@ endef
 define Build/Compile
 endef
 
-define Package/verysync/install
+define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/verysync $(1)/usr/bin/verysync
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/verysync $(1)/usr/bin/very_sync
 endef
 
-$(eval $(call BuildPackage,verysync))
+$(eval $(call BuildPackage,$(PKG_NAME)))
