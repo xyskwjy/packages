@@ -6,7 +6,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=python-certifi
-PKG_VERSION:=2020.6.20
+PKG_VERSION:=2022.9.24
 PKG_RELEASE:=1
 
 PKG_MAINTAINER:=Eneas U de Queiroz <cotequeiroz@gmail.com>
@@ -14,7 +14,7 @@ PKG_LICENSE:=MPL-2.0
 PKG_LICENSE_FILES:=LICENSE
 
 PYPI_NAME:=certifi
-PKG_HASH:=5930595817496dd21bb8dc35dad090f1c2cd0adfaf21204bf6732ca5d8ee34d3
+PKG_HASH:=0d9c601124e5a6ba9712dbc60d9c53c21e34f5f641fe83002317394311bdce14
 
 include ../pypi.mk
 include $(INCLUDE_DIR)/package.mk
@@ -26,7 +26,7 @@ define Package/python3-certifi
   CATEGORY:=Languages
   TITLE:=Python package for Mozilla's CA Bundle
   URL:=http://certifi.io/
-  DEPENDS:=+python3-light
+  DEPENDS:=+python3-light +python3-urllib
 endef
 
 define Package/python3-certifi/description

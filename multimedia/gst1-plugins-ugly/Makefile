@@ -8,20 +8,18 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=gst1-plugins-ugly
-PKG_VERSION:=1.18.5
-PKG_RELEASE:=$(AUTORELEASE)
+PKG_VERSION:=1.20.5
+PKG_RELEASE:=1
 
 PKG_SOURCE:=gst-plugins-ugly-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=https://gstreamer.freedesktop.org/src/gst-plugins-ugly
-PKG_HASH:=df32803e98f8a9979373fa2ca7e05e62f977b1097576d3a80619d9f5c69f66d9
+PKG_HASH:=af67d8ba7cab230f64d0594352112c2c443e2aa36a87c35f9f98a43d11430b87
 PKG_BUILD_DIR:=$(BUILD_DIR)/gst-plugins-ugly-$(PKG_VERSION)
 
 PKG_MAINTAINER:=W. Michael Petullo <mike@flyn.org> \
 		Ted Hess <thess@kitschensync.net>
 PKG_LICENSE:=LGPL-2.1-or-later
 PKG_LICENSE_FILES:=COPYING
-
-PKG_INSTALL:=1
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/nls.mk
@@ -108,6 +106,7 @@ MESON_ARGS += \
 	-Dsidplay=disabled \
 	-Dx264=disabled \
 	\
+	-Dgpl=enabled \
 	-Dnls=enabled \
 	-Dorc=disabled \
 	-Dtests=disabled \

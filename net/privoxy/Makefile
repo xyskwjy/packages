@@ -8,12 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=privoxy
-PKG_VERSION:=3.0.28
-PKG_RELEASE:=1
+PKG_VERSION:=3.0.33
+PKG_RELEASE:=$(AUTORELEASE)
 
 PKG_SOURCE:=privoxy-$(PKG_VERSION)-stable-src.tar.gz
 PKG_SOURCE_URL:=@SF/ijbswa
-PKG_HASH:=b5d78cc036aaadb3b7cf860e9d598d7332af468926a26e2d56167f1cb6f2824a
+PKG_HASH:=04b104e70dac61561b9dd110684b250fafc8c13dbe437a60fae18ddd9a881fae
 PKG_BUILD_DIR:=$(BUILD_DIR)/privoxy-$(PKG_VERSION)-stable
 PKG_FIXUP:=autoreconf
 PKG_INSTALL:=1
@@ -157,8 +157,15 @@ endef
 
 define Package/privoxy/postinst
 	#!/bin/sh
-	grep -i privoxy $${IPKG_INSTROOT}/etc/services >/dev/null 2>&1 || \
-		echo -e "privoxy\t8118" >> $${IPKG_INSTROOT}/etc/services
+	# if exists, update previous version entry missing protocol
+	(grep -E "privoxy.*8118$$" $${IPKG_INSTROOT}/etc/services) > /dev/null \
+		&& sed -i "s/privoxy.*8118/privoxy\t\t8118\/tcp/" $${IPKG_INSTROOT}/etc/services
+
+	# add missing tcp and udp entries
+	(grep -E "privoxy.*8118\/tcp" $${IPKG_INSTROOT}/etc/services) > /dev/null \
+		|| echo -e "privoxy\t\t8118/tcp" >> $${IPKG_INSTROOT}/etc/services
+	(grep -E "privoxy.*8118\/udp" $${IPKG_INSTROOT}/etc/services) > /dev/null \
+		|| echo -e "privoxy\t\t8118/udp" >> $${IPKG_INSTROOT}/etc/services
 endef
 
 $(eval $(call BuildPackage,privoxy))

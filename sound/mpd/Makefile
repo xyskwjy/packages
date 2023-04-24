@@ -6,22 +6,22 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=mpd
-PKG_VERSION:=0.23.5
-PKG_RELEASE:=$(AUTORELEASE)
+PKG_VERSION:=0.23.11
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=https://www.musicpd.org/download/mpd/0.23
-PKG_HASH:=f22c2c25093a05f4566f9cd7207cfbcd8405af67ed29a989bcf8905f80b7a299
+PKG_HASH:=edb4e7a8f9dff238b5610f9e2461940ea98c727a5462fafb1cdf836304dfdca9
 
 PKG_MAINTAINER:=
 PKG_LICENSE:=GPL-2.0-or-later
 PKG_LICENSE_FILES:=COPYING
 
 PKG_CONFIG_DEPENDS:= \
+	CONFIG_AUDIO_SUPPORT \
 	CONFIG_BUILD_PATENTED \
 	CONFIG_IPV6 \
 
-PKG_INSTALL:=1
 PKG_USE_MIPS16:=0
 
 include $(INCLUDE_DIR)/package.mk
@@ -48,8 +48,8 @@ endef
 define Package/mpd-full
 $(call Package/mpd/Default)
   TITLE+= (full)
-  DEPENDS+= +AUDIO_SUPPORT:pulseaudio-daemon +libvorbis +libmms +libnpupnp +libshout +yajl \
-            +libffmpeg +lame-lib +!BUILD_PATENTED:libmad
+  DEPENDS+= +AUDIO_SUPPORT:pulseaudio +libvorbis +libmms +libnpupnp +libshout +yajl \
+            +libffmpeg +lame-lib +libsoxr +!BUILD_PATENTED:libmad
   PROVIDES:=mpd
   VARIANT:=full
 endef
@@ -156,7 +156,6 @@ MESON_ARGS += \
 	-Dshine=disabled \
 	-Dwave_encoder=true \
 	-Dlibsamplerate=disabled \
-	-Dsoxr=disabled \
 	-Dalsa=$(if $(CONFIG_AUDIO_SUPPORT),en,dis)abled \
 	-Dao=disabled \
 	-Dhttpd=true \
@@ -182,7 +181,7 @@ ifeq ($(BUILD_VARIANT),full)
 	-Dupnp=npupnp \
 	-Dmms=enabled \
 	-Dsoundcloud=enabled \
-	-Dffmpeg=$(if $(CONFIG_BUILD_PATENTED),en,dis)abled \
+	-Dffmpeg=enabled \
 	-Dmad=$(if $(CONFIG_BUILD_PATENTED),dis,en)abled \
 	-Dtremor=disabled \
 	-Dvorbis=enabled \
@@ -193,7 +192,8 @@ ifeq ($(BUILD_VARIANT),full)
 	-Dshout=enabled \
 	-Dyajl=enabled \
 	-Dvorbisenc=enabled \
-	-Dlame=enabled
+	-Dlame=enabled \
+	-Dsoxr=enabled
 
 ifeq ($(CONFIG_AUDIO_SUPPORT),y)
 	TARGET_LDFLAGS += -Wl,-rpath-link=$(STAGING_DIR)/usr/lib/pulseaudio
@@ -216,7 +216,8 @@ ifeq ($(BUILD_VARIANT),mini)
 	-Dpulse=disabled \
 	-Drecorder=false \
 	-Dshout=disabled \
-	-Dyajl=disabled
+	-Dyajl=disabled \
+	-Dsoxr=disabled
 endif
 
 define Package/mpd/install

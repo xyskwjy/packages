@@ -8,12 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=bluez
-PKG_VERSION:=5.56
+PKG_VERSION:=5.66
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=@KERNEL/linux/bluetooth/
-PKG_HASH:=59c4dba9fc8aae2a6a5f8f12f19bc1b0c2dc27355c7ca3123eed3fe6bd7d0b9d
+PKG_HASH:=39fea64b590c9492984a0c27a89fc203e1cdc74866086efb8f4698677ab2b574
 
 PKG_LICENSE:=GPL-2.0-or-later
 PKG_LICENSE_FILES:=COPYING
@@ -45,6 +45,14 @@ $(call Package/bluez/Default)
   CATEGORY:=Utilities
   TITLE+= utilities
   DEPENDS:=+bluez-libs
+endef
+
+define Package/bluez-utils-btmon
+$(call Package/bluez/Default)
+  SECTION:=utils
+  CATEGORY:=Utilities
+  TITLE+= utilities
+  DEPENDS:=+bluez-libs +glib2
 endef
 
 define Package/bluez-utils-extra
@@ -111,10 +119,8 @@ endef
 define Package/bluez-utils/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/tools/bdaddr $(1)/usr/bin/
-#	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/bccmd $(1)/usr/bin/
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/bluemoon $(1)/usr/bin/
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/btattach $(1)/usr/bin/
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/btmon $(1)/usr/bin/
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/ciptool $(1)/usr/bin/
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/hciattach $(1)/usr/bin/
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/hciconfig $(1)/usr/bin/
@@ -125,6 +131,11 @@ define Package/bluez-utils/install
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/l2test $(1)/usr/bin/
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/rctest $(1)/usr/bin/
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/rfcomm $(1)/usr/bin/
+endef
+
+define Package/bluez-utils-btmon/install
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/btmon $(1)/usr/bin/
 endef
 
 define Package/bluez-utils-extra/install
@@ -153,5 +164,6 @@ endef
 
 $(eval $(call BuildPackage,bluez-libs))
 $(eval $(call BuildPackage,bluez-utils))
+$(eval $(call BuildPackage,bluez-utils-btmon))
 $(eval $(call BuildPackage,bluez-utils-extra))
 $(eval $(call BuildPackage,bluez-daemon))

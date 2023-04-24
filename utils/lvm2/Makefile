@@ -9,12 +9,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=LVM2
-PKG_VERSION:=2.03.12
-PKG_RELEASE:=$(AUTORELEASE)
+PKG_VERSION:=2.03.17
+PKG_VERSION_DM:=1.02.187
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME).$(PKG_VERSION).tgz
 PKG_SOURCE_URL:=https://sourceware.org/pub/lvm2
-PKG_HASH:=76075cf2a2dd12ef526a583f0b3c72a6deaa10691fab28216b0821d01cff0cea
+PKG_HASH:=7286cfa9651828c589389509546333b8da965dfa84a1a4c8ab3e681a47fabae7
 PKG_BUILD_DIR:=$(BUILD_DIR)/lvm2-$(BUILD_VARIANT)/$(PKG_NAME).$(PKG_VERSION)
 
 PKG_MAINTAINER:=Daniel Golle <daniel@makrotopia.org>
@@ -31,6 +32,7 @@ define Package/libdevmapper/Default
   CATEGORY:=Libraries
   TITLE:=The Linux Kernel Device Mapper userspace library
   URL:=https://sourceware.org/dm/
+  VERSION:=$(PKG_VERSION_DM)
   DEPENDS:=+kmod-dm +libpthread +libuuid +librt +libblkid
 endef
 
@@ -144,6 +146,8 @@ define Package/lvm2/install
 	$(INSTALL_DATA) ./files/lvm2.preinit $(1)/lib/preinit/80_lvm2
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/lvm2.init $(1)/etc/init.d/lvm2
+	$(INSTALL_DIR) $(1)/etc/hotplug.d/block
+	$(INSTALL_DATA) ./files/lvm2.hotplug $(1)/etc/hotplug.d/block/20-lvm2
 	$(FIND) $(PKG_INSTALL_DIR)/usr/sbin/ -type l -exec $(CP) -a {} $(1)/sbin/ \;
 endef
 

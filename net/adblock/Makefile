@@ -1,12 +1,12 @@
 #
-# Copyright (c) 2015-2021 Dirk Brenken (dev@brenken.org)
+# Copyright (c) 2015-2022 Dirk Brenken (dev@brenken.org)
 # This is free software, licensed under the GNU General Public License v3.
 #
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=adblock
-PKG_VERSION:=4.1.3
+PKG_VERSION:=4.1.4
 PKG_RELEASE:=5
 PKG_LICENSE:=GPL-3.0-or-later
 PKG_MAINTAINER:=Dirk Brenken <dev@brenken.org>
@@ -22,7 +22,7 @@ define Package/adblock
 endef
 
 define Package/adblock/description
-Powerful adblock script to block ad/abuse domains via dnsmasq, unbound, named or kresd.
+Powerful adblock solution to block ad/abuse domains via dnsmasq, unbound, named or kresd.
 The script supports many domain blacklist sites plus manual black- and whitelist overrides.
 Please see https://github.com/openwrt/packages/blob/master/net/adblock/files/README.md for further information.
 

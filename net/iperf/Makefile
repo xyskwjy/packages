@@ -8,11 +8,11 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=iperf
-PKG_VERSION:=2.0.13
-PKG_RELEASE:=3
+PKG_VERSION:=2.1.8
+PKG_RELEASE:=$(AUTORELEASE)
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_HASH:=c88adec966096a81136dda91b4bd19c27aae06df4d45a7f547a8e50d723778ad
+PKG_HASH:=8e2cf2fbc9d0d4d1cf9d109b1e328459f9622993dc9a4c5a7dc8a2088fb7beaf
 PKG_SOURCE_URL:=@SF/iperf2
 
 PKG_MAINTAINER:=Felix Fietkau <nbd@nbd.name>
@@ -45,6 +45,7 @@ define Package/iperf/config
 endef
 
 CONFIGURE_ARGS += \
+	--enable-fastsampling \
 	$(call autoconf_bool,CONFIG_IPERF_ENABLE_MULTICAST,multicast) \
 	$(call autoconf_bool,CONFIG_IPV6,ipv6)
 

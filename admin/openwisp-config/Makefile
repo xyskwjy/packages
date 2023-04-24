@@ -1,21 +1,19 @@
-# openwisp.org
+# SPDX-Identifier-License: GPL-3.0-only
 #
-# This is free software, licensed under the GNU General Public License v3.
-# See /LICENSE for more information.
+# openwisp.org
+
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=openwisp-config
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_MAINTAINER:=Federico Capoano <f.capoano@openwisp.io>
-PKG_LICENSE:=GPL3.0-or-later
+PKG_LICENSE:=GPL-3.0-or-later
 
 PKG_SOURCE_URL:=https://github.com/openwisp/openwisp-config.git
-PKG_MIRROR_HASH:=b1f5682715cc5b5623b2acf49ebb75d8bac1b58094981b61ede3ca392bdfa269
+PKG_MIRROR_HASH:=7daa10a9d170e665f33a5555a246b4da2223c2d8d0e8a047edb01701c8886986
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2021-12-07
-PKG_SOURCE_VERSION:=08df34db29180a0d13c2e357723e8c546523014a
-PKGARCH:=all
+PKG_SOURCE_VERSION:=1.0.1
 
 include $(INCLUDE_DIR)/package.mk
 

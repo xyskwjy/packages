@@ -8,12 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=libarchive
-PKG_VERSION:=3.5.1
-PKG_RELEASE:=1
+PKG_VERSION:=3.6.2
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=https://www.libarchive.org/downloads
-PKG_HASH:=0e17d3a8d0b206018693b27f08029b598f6ef03600c2b5d10c94ce58692e299b
+PKG_HASH:=9e2c1b80d5fbe59b61308fdfab6c79b5021d7ff4ff2489fb12daf0a96a83551d
 
 PKG_MAINTAINER:=Johannes Morgenroth <morgenroth@ibr.cs.tu-bs.de>
 PKG_LICENSE:=BSD-2-Clause
@@ -34,6 +34,7 @@ endef
 define Package/libarchive
   $(call Package/libarchive/Default)
   DEPENDS += +libopenssl
+  CONFLICTS:=libarchive-noopenssl
 endef
 
 define Package/libarchive-noopenssl
@@ -53,6 +54,7 @@ endef
 define Package/bsdtar
   $(call Package/bsdtar/Default)
   DEPENDS:= +libarchive
+  CONFLICTS:=bsdtar-noopenssl
 endef
 
 define Package/bsdtar-noopenssl
@@ -102,6 +104,14 @@ ifeq ($(BUILD_VARIANT),noopenssl)
 else
 	CMAKE_OPTIONS += -DENABLE_OPENSSL=ON
 endif
+
+EXTRA_CFLAGS += "-I$(PKG_BUILD_DIR)/extra-includes"
+
+define Build/Configure
+	$(INSTALL_DIR) $(PKG_BUILD_DIR)/extra-includes/
+	$(CP) -R $(STAGING_DIR_HOST)/include/ext2fs $(PKG_BUILD_DIR)/extra-includes/
+	$(Build/Configure/Default)
+endef
 
 define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/include
