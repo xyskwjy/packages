@@ -8,12 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=tailscale
-PKG_VERSION:=1.36.0
+PKG_VERSION:=1.42.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=tailscale-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/tailscale/tailscale/tar.gz/v$(PKG_VERSION)?
-PKG_HASH:=25b293a7e65d7b962f0c56454d66fa56c89c3aa995467218f24efa335b924c76
+PKG_HASH:=09de9bacda98de8d733cff162572b7eac857d13db783776ba2a2450a44ecc5e9
 
 PKG_MAINTAINER:=Jan Pavlinec <jan.pavlinec1@gmail.com>
 PKG_LICENSE:=BSD-3-Clause
@@ -63,7 +63,6 @@ Package/tailscaled/description:=$(Package/tailscale/description)
 
 define Package/tailscaled/conffiles
 /etc/config/tailscale
-/etc/tailscale/tailscaled.state
 endef
 
 GO_IPTABLES_VERSION:=0.6.0
@@ -96,8 +95,8 @@ endef
 define Package/tailscaled/install
 	$(INSTALL_DIR) $(1)/usr/sbin $(1)/etc/init.d $(1)/etc/config
 	$(INSTALL_BIN) $(GO_PKG_BUILD_BIN_DIR)/tailscaled $(1)/usr/sbin
-	$(INSTALL_BIN) ./files//tailscale.init $(1)/etc/init.d/tailscale
-	$(INSTALL_DATA) ./files//tailscale.conf $(1)/etc/config/tailscale
+	$(INSTALL_BIN) ./files/tailscale.init $(1)/etc/init.d/tailscale
+	$(INSTALL_DATA) ./files/tailscale.conf $(1)/etc/config/tailscale
 endef
 
 $(eval $(call BuildPackage,tailscale))
